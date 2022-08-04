@@ -45,7 +45,9 @@
         <v-row justify="center" no-gutters class="bg-grey-lighten-3">
           <v-col md="10">
             <v-main>
-             <router-view></router-view>
+              <Suspense>
+                <router-view></router-view>
+              </Suspense>
             </v-main>
           </v-col>
         </v-row>
