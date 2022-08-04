@@ -1,30 +1,87 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <v-app>
+     <v-app-bar
+        color="deep-purple"
+        dark
+      >
+        <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+  
+        <v-toolbar-title>Title</v-toolbar-title>
+      </v-app-bar>
+  
+      <v-navigation-drawer
+        v-model="drawer"
+        absolute
+        temporary
+      >
+        <v-list
+          nav
+          dense
+        >
+          <v-list-item-group
+            v-model="group"
+            active-class="deep-purple--text text--accent-4"
+          >
+            <v-list-item>
+              <router-link to="/">
+                <v-list-item-icon>
+                  <v-icon>mdi-home</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title>Home</v-list-item-title>
+              </router-link>
+            </v-list-item>
+  
+            <v-list-item>
+              <router-link to="/about">
+                <v-list-item-icon>
+                  <v-icon>mdi-account</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title>About</v-list-item-title>
+              </router-link>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-navigation-drawer>
+        <v-row justify="center" no-gutters class="bg-grey-lighten-3">
+          <v-col md="10">
+            <v-main>
+             <router-view></router-view>
+            </v-main>
+          </v-col>
+        </v-row>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script setup>
+import { ref } from 'vue'
 
-nav {
-  padding: 30px;
+  let drawer = ref(false)
+  let group = ref('home')
+ 
+</script>
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
 
-    &.router-link-exact-active {
-      color: #42b983;
+<!-- 
+<script>
+import HelloWorld from './components/HelloWorld.vue'
+import { ref } from 'vue'
+
+export default {
+  name: 'App',
+
+  components: {
+    HelloWorld,
+  },
+
+  setup() {
+      let drawer = ref(false)
+      let group = ref('home')
+    
+    return {
+      drawer,
+      group,
     }
-  }
+  },
 }
-</style>
+</script>
+ -->
