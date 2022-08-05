@@ -2,39 +2,55 @@
 
 
   <p>Main stuff</p>
-  <div
-    v-for="(person, index) in testData"
-    :key="index"
-  >
-    <p>{{person.name}} </p>
-    <p>{{person.age}} </p>
-    <p>{{person.id}} </p>
-
-     <button class="bg-orange-lighten-3" @click="clickToDeleteData(person.id)">Delete test data</button>
-  </div> 
-
-
-    <v-row justify="center" no-gutters class="bg-green-lighten-3">
+   <v-row justify="center" no-gutters class="bg-green-lighten-3">
       <v-col cols="12" sm="4">
         <button class="bg-purple-lighten-3" @click="clickToAddData()">Add data</button>
       </v-col>
     </v-row>
+  <div
+    v-for="(person, index) in posts"
+    :key="index"
+  >
+  <br><br>
+    <p>{{person.name}} </p>
+    <p>{{person.age}} </p>
+    <p>{{person.id}} </p>
+
+     <button class="bg-orange-lighten-3" @click="clickToDeleteData(person.id)">Delete test data</button><br><br>
+     <button class="bg-orange-lighten-3" @click="clickToUpdateData(person.id)">Update test data</button><br><br>
+    <hr>
+
+  </div> 
+
+
+   
     
   <!--    <v-row justify="center" no-gutters class="bg-green-lighten-3">
       <v-col cols="12" sm="4">
         <button class="bg-purple-lighten-3" @click="clickToDeleteData()">Delete test data</button>
       </v-col>
     </v-row> -->
-
+ 
 
 </template>
 
+
 <script setup>
-import { ref } from 'vue' 
-import { db } from "@/firebase.js";
-import { collection, /* getDocs, */ addDoc, doc, deleteDoc, onSnapshot } from "firebase/firestore"; 
+import usePosts from '../modules/usePosts'
+import { onMounted } from 'vue'
+
+const { posts, getTestData, clickToDeleteData, clickToAddData, clickToUpdateData } = usePosts()
+
+  onMounted(() => {
+    getTestData()
+  }) 
 
 
+// import { ref } from 'vue' 
+// import { db } from "@/firebase.js";
+// import { collection, /* getDocs, */ addDoc, doc, deleteDoc, onSnapshot } from "firebase/firestore"; 
+
+/* 
 let testData = ref([])
 const testDataRef = collection(db, "teststuff")
 
@@ -48,7 +64,7 @@ const testDataRef = collection(db, "teststuff")
       // age: doc.data().age
     }
   })
-})
+}) */
 
 
 //onsnapshot foreach docs and id to name and age
@@ -67,7 +83,7 @@ const testDataRef = collection(db, "teststuff")
 //   console.log(`${doc.id} => ${doc.data()}`);
 // });
 
-  function clickToAddData() {
+  /* function clickToAddData() {
     addDoc(collection(db, "teststuff"), {
       name: "test",
       age: "test"
@@ -76,6 +92,6 @@ const testDataRef = collection(db, "teststuff")
 
   function clickToDeleteData(id) {
      deleteDoc(doc(db, "teststuff", id))
-  }
+  } */
 
 </script>
