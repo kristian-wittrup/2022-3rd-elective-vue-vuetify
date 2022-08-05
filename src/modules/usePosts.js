@@ -28,9 +28,14 @@ const usePosts = () => {
   }
     
   const clickToUpdateData = async (id) => {
+
     updateDoc(doc(testDataRef, id), 
-      {
-        name: "test1", 
+      { 
+        // dynamic binding foreach key in data
+        name: posts.value.find(post => post.id === id).name,
+
+
+        //name: posts.value, 
         age: 1
       }
     )

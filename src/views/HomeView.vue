@@ -12,10 +12,10 @@
     :key="index"
   >
   <br><br>
-    <p>{{person.name}} </p>
+    <p v-html="person.name"> </p>
     <p>{{person.age}} </p>
     <p>{{person.id}} </p>
-
+    <QuillEditor theme="snow" toolbar="full" v-model:content="person.name" contentType="html"  />
      <button class="bg-orange-lighten-3" @click="clickToDeleteData(person.id)">Delete test data</button><br><br>
      <button class="bg-orange-lighten-3" @click="clickToUpdateData(person.id)">Update test data</button><br><br>
     <hr>
@@ -30,12 +30,21 @@
         <button class="bg-purple-lighten-3" @click="clickToDeleteData()">Delete test data</button>
       </v-col>
     </v-row> -->
- 
+  <hr>
+  <div style="height: 10px; width:100%; background-color: cadetblue;"></div>
+  <div>
+    
+  </div>
 
 </template>
 
 
 <script setup>
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+
+//import { ref } from 'vue'
+
 import usePosts from '../modules/usePosts'
 import { onMounted } from 'vue'
 
@@ -44,6 +53,8 @@ const { posts, getTestData, clickToDeleteData, clickToAddData, clickToUpdateData
   onMounted(() => {
     getTestData()
   }) 
+
+ // const modelname = ref(null)
 
 
 // import { ref } from 'vue' 
