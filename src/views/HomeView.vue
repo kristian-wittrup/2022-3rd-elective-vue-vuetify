@@ -1,31 +1,24 @@
 <template>
-
-
-  <p>Main stuff</p>
-    <v-row justify="center" no-gutters class="bg-darkgrey-lighten-3">
-      <v-col cols="12" sm="4">
-        <button class="bg-blue-lighten-3" @click="isOpen = true">Edit Posts</button> <span> | </span>
-        <teleport to="body">
-          <div class="modal" v-if="isOpen">
-            <EditPostView
-              @close="isOpen = false"
-            ></EditPostView>
-
-          </div>
-        </teleport>
-        <button class="bg-blue-lighten-3" @click="isOpen2 = true">Add new Posts</button>
-        <teleport to="body">
-          <div class="modal" v-if="isOpen2">
-          
-            <NewPostView
-              @close2="isOpen2 = false"
-            ></NewPostView>
-
-          </div>
-        </teleport>
-      </v-col>
-    </v-row>  
-    <br>
+  <h1>Main stuff</h1>
+  <v-row no-gutters class="bg-darkgrey-lighten-3">
+    <v-col cols="12" sm="12" style="justify-content:space-between">
+      <v-btn class="bg-blue-lighten-3" @click="isOpen2 = true"><v-icon>mdi-file-plus</v-icon>Add new Posts</v-btn> | 
+      <teleport to="body">
+        <div class="modal" v-if="isOpen2">
+          <NewPostView @close2="isOpen2 = false">
+          </NewPostView>
+        </div>
+      </teleport>
+      <v-btn class="bg-blue-lighten-3" @click="isOpen = true"><v-icon>mdi-pencil-outline</v-icon>Edit Posts</v-btn>
+      <teleport to="body">
+        <div class="modal" v-if="isOpen">
+          <EditPostView @close="isOpen = false">
+          </EditPostView>
+        </div>
+      </teleport>
+    </v-col>
+  </v-row>  
+  <br>
 
   <v-row>
     <v-col >
@@ -165,6 +158,13 @@ ul {
   border-radius: 5px;
   padding: 64px;
   width:95%;
+}
+
+#floatyClose {
+  position: fixed;
+  top: 96px;
+  left: -5px;
+  z-index: 99;
 }
 
 </style>
