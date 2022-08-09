@@ -2,36 +2,50 @@
 
 
   <p>Main stuff</p>
-   <v-row justify="center" no-gutters class="bg-green-lighten-3">
+    <v-row justify="center" no-gutters class="bg-darkgrey-lighten-3">
       <v-col cols="12" sm="4">
-        <button class="bg-purple-lighten-3" @click="clickToAddData()">Add data</button>
+        <button class="bg-blue-lighten-3" @click="isOpen = true">Edit Posts</button> <span> | </span>
+        <teleport to="body">
+          <div class="modal" v-if="isOpen">
+            <EditPostView
+              @close="isOpen = false"
+            ></EditPostView>
+
+          </div>
+        </teleport>
+        <button class="bg-blue-lighten-3" @click="isOpen2 = true">Add new Posts</button>
+        <teleport to="body">
+          <div class="modal" v-if="isOpen2">
+          
+            <NewPostView
+              @close2="isOpen2 = false"
+            ></NewPostView>
+
+          </div>
+        </teleport>
       </v-col>
-    </v-row>
-  <div
-    v-for="(person, index) in posts"
-    :key="index"
-  >
-  <br><br>
-    <p v-html="person.name"> </p>
-    <p>{{person.age}} </p>
-    <p>{{person.id}} </p>
-    <QuillEditor theme="snow" toolbar="full" v-model:content="person.name" contentType="html"  />
-     <button class="bg-orange-lighten-3" @click="clickToDeleteData(person.id)">Delete test data</button><br><br>
-     <button class="bg-orange-lighten-3" @click="clickToUpdateData(person.id)">Update test data</button><br><br>
-    <hr>
+    </v-row>  
+    <br>
 
-  </div> 
+  <v-row>
+    <v-col >
+      <v-card class="my-2 pa-5" v-for="(person, index) in posts" :key="index">
+      
+        <p class="px-5" v-html="person.name"></p>
+        
+        <hr>
 
+        <p class="px-5">Person Age: {{person.age}} </p>
+        <p class="px-5">Person Age: {{person.id}} </p>
+       
+        
+      </v-card> 
+    </v-col>
+  </v-row>
+  
+ 
 
-   
-    
-  <!--    <v-row justify="center" no-gutters class="bg-green-lighten-3">
-      <v-col cols="12" sm="4">
-        <button class="bg-purple-lighten-3" @click="clickToDeleteData()">Delete test data</button>
-      </v-col>
-    </v-row> -->
-  <hr>
-  <div style="height: 10px; width:100%; background-color: cadetblue;"></div>
+ 
   <div>
     
   </div>
@@ -40,15 +54,25 @@
 
 
 <script setup>
-import { QuillEditor } from '@vueup/vue-quill'
+// teleport component to the top of the page
+//import { teleport } from '@vueup/vue-teleport'
+import { ref } from 'vue'
+import EditPostView from './EditPostView.vue' // teleport modal
+import NewPostView from './NewPostView.vue' // teleport modal
+
+//import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-//import { ref } from 'vue'
+
 
 import usePosts from '../modules/usePosts'
 import { onMounted } from 'vue'
 
-const { posts, getTestData, clickToDeleteData, clickToAddData, clickToUpdateData } = usePosts()
+
+const isOpen = ref(false)
+const isOpen2 = ref(false)
+
+const { posts, getTestData /* , clickToAddData,clickToDeleteData, clickToUpdateData */ } = usePosts()
 
   onMounted(() => {
     getTestData()
@@ -106,3 +130,41 @@ const testDataRef = collection(db, "teststuff")
   } */
 
 </script>
+
+<style lang="scss">
+.root {
+  position: relative;
+}
+
+ul {
+  padding-left:20px;
+}
+
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  flex-direction: column;
+
+
+}
+
+.modal > div {
+  /* 
+  width: 100%;
+  height: 100%;
+  */
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  padding: 64px;
+  width:95%;
+}
+
+</style>
