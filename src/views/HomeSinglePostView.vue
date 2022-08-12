@@ -9,31 +9,31 @@
           </NewPostView>
         </div>
       </teleport>
-      <v-btn class="bg-blue-lighten-3" @click="isOpen = true"><v-icon>mdi-pencil-outline</v-icon>Edit Posts</v-btn>
-      <teleport to="body">
-        <div class="modal" v-if="isOpen">
-          <EditPostView @close="isOpen = false">
-          </EditPostView>
-        </div>
-      </teleport>
+      
     </v-col>
   </v-row>  
   <br>
 
   <v-row>
-    <v-col >
-      <v-card class="my-2 pa-5" v-for="(person, index) in posts" :key="index">
+    <v-col cols="12">
+      <v-card class="my-2 pa-5 d-flex flex-nowrap" v-for="(person, index) in posts" :key="index">
+        <v-col sm="11">
+          <p class="px-5" v-html="person.name"></p>
+          <hr>
+          <p class="px-5">Post Age: {{person.age}} </p>
+          <p class="px-5">Post Age: {{person.id}} </p> 
+        </v-col>
+        <v-col sm="1">
+          <router-link :to="`/editSinglePost/${person.id}`">
+            <v-btn color="" @click="getSinglePostData(person.id)">
+              <v-icon>mdi-pencil-outline</v-icon>Edit
+            </v-btn>
+          </router-link>
+        </v-col>
       
-        <p class="px-5" v-html="person.name"></p>
-        
-        <hr>
-
-        <p class="px-5">Post Age: {{person.age}} </p>
-        <p class="px-5">Post Id: {{person.id}} </p>
-       
-        
       </v-card> 
     </v-col>
+
   </v-row>
   
  
@@ -50,7 +50,6 @@
 // teleport component to the top of the page
 //import { teleport } from '@vueup/vue-teleport'
 import { ref } from 'vue'
-import EditPostView from './EditPostView.vue' // teleport modal
 import NewPostView from './NewPostView.vue' // teleport modal
 
 //import { QuillEditor } from '@vueup/vue-quill'
@@ -62,10 +61,9 @@ import usePosts from '../modules/usePosts'
 import { onMounted } from 'vue'
 
 
-const isOpen = ref(false)
 const isOpen2 = ref(false)
 
-const { posts, getTestData /* , clickToAddData,clickToDeleteData, clickToUpdateData */ } = usePosts()
+const { posts, getTestData, getSinglePostData } = usePosts()
 
   onMounted(() => {
     getTestData()

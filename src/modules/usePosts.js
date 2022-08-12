@@ -1,18 +1,23 @@
 import { ref } from 'vue' 
 import { db } from "@/firebase.js";
-import { collection, /* getDocs, */ addDoc, doc, deleteDoc, onSnapshot, updateDoc } from "firebase/firestore"; 
+import { collection, /*   getDoc,  */  addDoc, doc, deleteDoc, onSnapshot, updateDoc } from "firebase/firestore"; 
 
 // dnr (with teleport)
 import { useRoute  } from 'vue-router'
+import { useRouter  } from 'vue-router'
+
 
 const usePosts = () => {
   const testDataRef = collection(db, "teststuff")
   const posts = ref([]);
 
+  const post = ref([]);
+  
+  
+  const snackbar = ref(false)
 
   const route = useRoute(); // dnr (with teleport)
-  const { id } = route.params; // dnr (with teleport)
-  
+  const router = useRouter(); // dnr (with teleport)
   
   const getTestData = async () => {
     //onsnapshot map docs and id to name and age
@@ -22,7 +27,7 @@ const usePosts = () => {
           id: doc.id,
           ...doc.data(), 
           // name: doc.data().name,
-          // age: doc.data().age
+          // age: doc.data().age  
         }
       })
     })
@@ -46,7 +51,7 @@ const usePosts = () => {
       }
     ).then(
       getTestData(),
-      console.log("updated on id", id, "with data", posts.value.find(post => post.id === id).name)   
+      //console.log("updated on id", id, "with data", posts.value.find(post => post.id === id).name)   
     )
   }
 
@@ -55,16 +60,21 @@ const usePosts = () => {
     //deleteDoc(doc(db, "teststuff", id))
   }
 
-
+  
   /* Section: Edit Single post + retrieve single post + single new */
-  const singlePost = ref({})
-
   const getSinglePostData = async () => {
-    //onsnapshot map docs and id to name and age
-    onSnapshot(testDataRef, (snapshot) => {
-        posts.value = snapshot.docs.filter(doc => { doc.id === id })  //id is passed in from router.js
-      })
-  } 
+    // getSinglePostData firebase onsnapshot map docs and id to name and age
+    onSnapshot(doc(testDataRef, route.params.id), (snapshot) => {
+       post.value = {
+        id: snapshot.id,
+        ...snapshot.data(),
+      } 
+     // debugger
+    }
+    )
+
+  }
+
 
  
   const updateSinglePost = async (id) => {
@@ -72,23 +82,32 @@ const usePosts = () => {
     updateDoc(doc(testDataRef, id), 
       { 
         // dynamic binding foreach key in data
-        name: posts.value.find(post => post.id === id).name,
-        //name: posts.value, 
+        name: post.value.name, 
         age: 1
-      }
+      },
     ).then(
-      
-      //console.log("updated on id", id, "with data", posts.value.find(post => post.id === id).name)   
+      snackbar.value = true
     )
+  }
+
+
+  const deleteSingleData = async (id) => {
+    deleteDoc(doc(testDataRef, id))
+    //deleteDoc(doc(db, "teststuff", id))
   }
 
   const addPostVueQuill = async (name) => {
     addDoc(collection(db, "teststuff"), {
       name: name,
-      age: "test"
+      age: 42
     })
   }
 
+  /* utility functions */
+
+  const goBack = () => {
+    router.go(-1)
+  }
 
   return {
     getTestData,
@@ -97,9 +116,12 @@ const usePosts = () => {
     clickToUpdateData,
     getSinglePostData,
     updateSinglePost,
+    deleteSingleData,
     addPostVueQuill,
-    singlePost,
-    posts
+    posts,
+    post,
+    goBack, 
+    snackbar
   }
 }
 
