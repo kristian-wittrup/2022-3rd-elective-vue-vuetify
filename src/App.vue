@@ -39,6 +39,16 @@
                 <v-list-item-title>Shingles</v-list-item-title>
               </router-link>
             </v-list-item>
+            <v-list-item>
+              <router-link to="/login">
+                <v-list-item-icon>
+                  <v-icon>mdi-account</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title>Login</v-list-item-title>
+              </router-link>
+
+            
+            </v-list-item>
           </v-list-item-group>
         </v-list>
       </v-navigation-drawer>
