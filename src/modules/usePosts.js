@@ -63,15 +63,24 @@ const usePosts = () => {
   
   /* Section: Edit Single post + retrieve single post + single new */
   const getSinglePostData = async () => {
-    // getSinglePostData firebase onsnapshot map docs and id to name and age
-    onSnapshot(doc(testDataRef, route.params.id), (snapshot) => {
-       post.value = {
-        id: snapshot.id,
-        ...snapshot.data(),
-      } 
-     // debugger
+    try {
+      const id = route.params.id;
+      console.log("stegger", id)
+      onSnapshot(doc(testDataRef, id), (snapshot) => {
+        //
+         post.value = {
+          id: snapshot.id,
+          ...snapshot.data(),
+        } 
+      })
     }
-    )
+    catch (error) {
+      console.log(error)
+     }
+
+    
+    // getSinglePostData firebase onsnapshot map docs and id to name and age
+    
 
   }
 

@@ -21,7 +21,7 @@
           <p class="px-5" v-html="person.name"></p>
           <hr>
           <p class="px-5">Post Age: {{person.age}} </p>
-          <p class="px-5">Post Age: {{person.id}} </p> 
+          <p class="px-5">Post id: {{person.id}} </p> 
         </v-col>
         <v-col sm="1">
           <router-link :to="`/editSinglePost/${person.id}`">

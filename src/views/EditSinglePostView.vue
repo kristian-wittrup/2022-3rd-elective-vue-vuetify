@@ -53,7 +53,7 @@ let routeId = route.params.id; // dnr (with teleport)
 
 const { post, snackbar, getSinglePostData , deleteSingleData, updateSinglePost, goBack } = usePosts()
 
-const text = ref(`Updated`)
+const text = ref(`Updated Post with ID: ${routeId}`)
 
   onMounted(() => {
     getSinglePostData()
